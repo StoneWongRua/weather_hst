@@ -1,17 +1,25 @@
 package com.test.main;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.SignatureException;
+import java.util.Date;
 
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
-import com.ui.frame.MainFrame;
+import com.weather.dao.CityDao;
+import com.weather.dao.DbHelper;
+import com.weather.util.LineUtil;
 
 public class TestMain {
-/*	
+/*    private String TIANQI_DAILY_WEATHER_URL = "https://api.seniverse.com/v3/weather/daily.json";
+    private static String TIANQI_HOURLY_WEATHER_URL = "https://api.seniverse.com/v3/weather/hourly.json";
+
+    private static String TIANQI_API_SECRET_KEY = "SC21Vv4TLY2SiVF54"; //
+
+    private static String TIANQI_API_USER_ID = "PkrAQsX1aJrCjqp6i"; //
+	
 	public Statement stmt = null;
 	public ResultSet rs = null;
 	private static final String URL="jdbc:mysql://localhost:3306/tong_music?useSSL=false";
@@ -96,5 +104,80 @@ public class TestMain {
 	}
 	
 	
-*/
+
+
+    *//**
+     * Generate HmacSHA1 signature with given data string and key
+     * @param data
+     * @param key
+     * @return
+     * @throws SignatureException
+     *//*
+    private static String generateSignature(String data, String key) throws SignatureException {
+        String result;
+        try {
+            // get an hmac_sha1 key from the raw key bytes
+            SecretKeySpec signingKey = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA1");
+            // get an hmac_sha1 Mac instance and initialize with the signing key
+            Mac mac = Mac.getInstance("HmacSHA1");
+            mac.init(signingKey);
+            // compute the hmac on input data bytes
+            byte[] rawHmac = mac.doFinal(data.getBytes("UTF-8"));
+            result = new sun.misc.BASE64Encoder().encode(rawHmac);
+        }
+        catch (Exception e) {
+            throw new SignatureException("Failed to generate HMAC : " + e.getMessage());
+        }
+        return result;
+    }
+    
+    public String generateGetDiaryWeatherURL(
+            String location,
+            String language,
+            String unit,
+            String start,
+            String days
+    )  throws SignatureException, UnsupportedEncodingException {
+        String timestamp = String.valueOf(new Date().getTime());
+        String params = "ts=" + timestamp + "&ttl=30&uid=" + TIANQI_API_USER_ID;
+        String signature = URLEncoder.encode(generateSignature(params, TIANQI_API_SECRET_KEY), "UTF-8");
+        return TIANQI_DAILY_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + location + "&language=" + language + "&unit=" + unit + "&start=" + start + "&days=" + days;
+    }
+    
+    //24小时逐小时天气预报
+    public static String generateGetHourlyWeather(
+            String location,
+            String language,
+            String unit,
+            String start,
+            String hours
+    	    )  throws SignatureException, UnsupportedEncodingException {
+        String timestamp = String.valueOf(new Date().getTime());
+        String params = "key=" + TIANQI_API_SECRET_KEY;
+        String signature = URLEncoder.encode(generateSignature(params, TIANQI_API_SECRET_KEY), "UTF-8");
+		return TIANQI_HOURLY_WEATHER_URL + "?" + params + "&location=" + location + "&language=" + language + "&unit=" + unit + "&start=" + start + "&days=" + hours;
+    }
+    
+    
+	public static void main(String argvs[]) throws Exception {
+		CityDao cityDao = new CityDao();
+		TestMain demo = new TestMain();
+		DbHelper dbHelper = cityDao.createDbHelper();
+		dbHelper.createConnection();
+		String hourly;
+		String url = demo.generateGetDiaryWeatherURL(                    
+					"beijing",   //城市信息
+                    "zh-Hans",   //语言信息
+                    "c",            //c 表示摄氏度， f表示华氏度
+                    "0",           //0 表示今天，1表示明天，-1表示昨天（收费）
+                    "2");
+		String hour = demo.generateGetHourlyWeather("guangzhou", "zh-Hans", "c", "0", "24");
+		String daily = LineUtil.getJsonStr(url);
+		hourly = LineUtil.getJsonStr(hour);
+		System.out.println(hourly);
+		//List hourly_weather = WeatherUtil.getHourlyWeathers("广州");
+		//System.out.println(hourly_weather);
+	}*/
+	
+	
 }

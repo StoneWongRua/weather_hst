@@ -106,6 +106,7 @@ public class WeatherUtil {
 			e1.printStackTrace();
 		}
 		String jsonStr = getJsonStr( HOURLY_WEATHER_URL + parameters);
+		System.out.println("autoTest: " + parameters);
 		String regex = "\\[\\{\"cloud.*?\\]";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(jsonStr);
@@ -125,6 +126,7 @@ public class WeatherUtil {
 				hourly_Weather.setLocationAndUpdateTime(getLocationAndUpdateTime(jsonStr));
 				hourly_Weathers.add(hourly_Weather);
 			}
+			System.out.println("testHourly + " + hourly_Weathers);
 		}
 		return hourly_Weathers;
 	}

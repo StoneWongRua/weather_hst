@@ -203,6 +203,7 @@ public class SettingPanel extends JPanel{
 		List<Daily_Weather> daily_Weathers = WeatherUtil.getDailyWeathers("auto_ip");
 		
 		province = now_Weather.getLocationAndUpdateTime().getAdmin_area();
+		System.out.println("Auto" + province);
 		provinceComboBox.setSelectedItem(province);
 		List<String> citys = new CityDao().getCityName(province);
 		DefaultComboBoxModel cityComboxModel = new DefaultComboBoxModel<>(citys.toArray());
