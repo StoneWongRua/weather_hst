@@ -158,6 +158,7 @@ public class SettingPanel extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				updateWeatherInfo();
+				//updateWeatherLine();
 			}
 			
 		});
@@ -190,6 +191,9 @@ public class SettingPanel extends JPanel{
 		Now_Weather now_Weather = new Now_Weather();
 		List<Hourly_Weather> hourly_Weathers = new ArrayList<>();
 		List<Daily_Weather> daily_Weathers = new ArrayList<>();
+		String location = city;
+		System.out.println("test location::::" + location);
+		
 		
 		if(areaComBox.getItemCount() == 0) {
 			now_Weather = WeatherUtil.getNowWeather(city+","+province);
@@ -202,7 +206,9 @@ public class SettingPanel extends JPanel{
 			daily_Weathers = WeatherUtil.getDailyWeathers(area+","+city);
 		}
 		nowWeatherDialog = new NowWeatherDialog(now_Weather);
-		mainFrame.setWeatherInfo(now_Weather, hourly_Weathers, daily_Weathers);
+		
+		
+		mainFrame.setWeatherInfo(now_Weather, hourly_Weathers, daily_Weathers,location);
 	}
 	
 	/**
@@ -239,8 +245,37 @@ public class SettingPanel extends JPanel{
 						
 		nowWeatherDialog = new NowWeatherDialog(now_Weather);
 		
-		mainFrame.setWeatherInfo(now_Weather, hourly_Weathers, daily_Weathers);
+		mainFrame.setWeatherInfo(now_Weather, hourly_Weathers, daily_Weathers, "auto_ip");
 	}
+	
+/*	public void updateWeatherLine() {
+		province = provinceComboBox.getSelectedItem().toString();
+		if(province.equals("请选择省份")) {
+			JOptionPane.showMessageDialog(SettingPanel.this, "请选择省份");
+			return;
+		}
+		city = cityComBox.getSelectedItem().toString();
+		if(city.equals("请选择城市")) {
+			JOptionPane.showMessageDialog(SettingPanel.this, "请选择城市");
+			return;
+		}
+		Now_Weather now_Weather = new Now_Weather();
+		List<Hourly_Weather> hourly_Weathers = new ArrayList<>();
+		List<Daily_Weather> daily_Weathers = new ArrayList<>();
+		
+		if(areaComBox.getItemCount() == 0) {
+			now_Weather = WeatherUtil.getNowWeather(city+","+province);
+			hourly_Weathers = WeatherUtil.getHourlyWeathers(city+","+province);
+			daily_Weathers = WeatherUtil.getDailyWeathers(city+","+province);
+		}else {
+			area = areaComBox.getSelectedItem().toString();
+			now_Weather = WeatherUtil.getNowWeather(area+","+city);
+			hourly_Weathers = WeatherUtil.getHourlyWeathers(area+","+city);
+			daily_Weathers = WeatherUtil.getDailyWeathers(area+","+city);
+		}
+		nowWeatherDialog = new NowWeatherDialog(now_Weather);
+		
+	}*/
 	
 
 }
