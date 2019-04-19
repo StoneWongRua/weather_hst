@@ -1,8 +1,10 @@
 package com.ui.panel;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -17,6 +19,15 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.ui.frame.MainFrame;
 import com.ui.frame.NowWeatherDialog;
@@ -201,6 +212,7 @@ public class SettingPanel extends JPanel{
 		Now_Weather now_Weather = WeatherUtil.getNowWeather("auto_ip");
 		List<Hourly_Weather> hourly_Weathers = WeatherUtil.getHourlyWeathers("auto_ip");
 		List<Daily_Weather> daily_Weathers = WeatherUtil.getDailyWeathers("auto_ip");
+
 		
 		province = now_Weather.getLocationAndUpdateTime().getAdmin_area();
 		System.out.println("Auto" + province);
@@ -226,6 +238,9 @@ public class SettingPanel extends JPanel{
 		}
 						
 		nowWeatherDialog = new NowWeatherDialog(now_Weather);
+		
 		mainFrame.setWeatherInfo(now_Weather, hourly_Weathers, daily_Weathers);
 	}
+	
+
 }

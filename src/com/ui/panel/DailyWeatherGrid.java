@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import com.ui.component.WeatherTextLabel;
 import com.weather.model.Daily_Weather;
+import com.weather.util.WeatherUtil;
 
 /**
  * 单行的每日天气格子
@@ -59,6 +60,10 @@ public class DailyWeatherGrid extends JPanel{
 		
 		condLabel = new WeatherTextLabel(0, 0, this.daily_Weather.getCond_txt_d());
 		tmpLabel = new WeatherTextLabel(0, 0, this.daily_Weather.getTmp_min()+"℃/"+this.daily_Weather.getTmp_max()+"℃");
+		
+		//weatherUtil.getDailyWeathers("广东");
+		System.out.println("test daily weather" + this.daily_Weather.getTmp_max());
+		
 		popLabel = new WeatherTextLabel(0, 0, "降水概率:"+this.daily_Weather.getPop()+"%");
 		windLael = new WeatherTextLabel(0, 0, this.daily_Weather.getWind_dir()+","+this.daily_Weather.getWind_sc()+"级");
 		

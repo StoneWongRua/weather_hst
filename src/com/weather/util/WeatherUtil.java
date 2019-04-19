@@ -197,4 +197,7 @@ public class WeatherUtil {
 		locationAndUpdateTime = (LocationAndUpdateTime)JSONObject.toBean(jsonObject, LocationAndUpdateTime.class);
 		return locationAndUpdateTime;
 	}
+	
+	
+	
 }

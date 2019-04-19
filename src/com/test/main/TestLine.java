@@ -1,72 +1,34 @@
-package com.ui.frame;
+package com.test.main;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
-import com.test.main.TestLine;
-import com.ui.panel.DailyWeatherGrid;
-import com.ui.panel.SettingPanel;
 import com.weather.model.Daily_Weather;
-import com.weather.model.Hourly_Weather;
 import com.weather.model.Now_Weather;
+import com.weather.util.WeatherUtil;
 
-/**
- * 主界面
- * @author tong
- *
- */
-public class MainFrame extends JFrame {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private SettingPanel settingPanel;
-	private JPanel hourlyWeatherPanel;
-	private JPanel dailyWeatherPanel;
-	private JPanel chartPanle;
-	private final JLabel DATA_SOURCE_LABEL = new JLabel("数据来源于和风天气");
-	String series1 = "最高温度";
-	String series2 = "最低温度";
-	
-	String type1 = "今天";
-	String type2 = "明天";
-	String type3 = "后天";
+public class TestLine {
 	
 	private static Daily_Weather daily_Weather;
 	
-	public MainFrame() {
-		// TODO Auto-generated constructor stub
-		this.setTitle("天气预报");
-		this.setSize(1000, 600);
-		this.setIconImage(new ImageIcon("image/icon.png").getImage());
-		//居中显示
-		this.setLocationRelativeTo(null);
-		//点击关闭按钮关闭
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-		
-		this.setLayout(new BorderLayout(5, 10));
-		
-		settingPanel = new SettingPanel(this);
-		hourlyWeatherPanel = new JPanel();
-		dailyWeatherPanel = new JPanel();
-		this.add(settingPanel,BorderLayout.NORTH);
 
-		this.settingPanel.updateAuto_ip();		
-		
-	}
 	
-
-/*	public static ChartPanel creatFrame() {
+	public static ChartPanel creatFrame() {
 		Daily_Weather daily_weather = new Daily_Weather();
 		Font font = new Font("微软雅黑", 1, 15);
 		StandardChartTheme mChartTheme = new StandardChartTheme("CN");
@@ -77,7 +39,7 @@ public class MainFrame extends JFrame {
 		ChartFactory.setChartTheme(mChartTheme);
 		CategoryDataset mDataset = GetDataset(daily_Weather);
         JFreeChart mChart = ChartFactory.createLineChart(
-                "未来三天气温趋势",//图名字
+                "未来三天天气趋势",//图名字
                 "",//横坐标
                 "",//纵坐标
                 mDataset,//数据集
@@ -87,7 +49,10 @@ public class MainFrame extends JFrame {
                 false);// 是否生成超链接
 		
         CategoryPlot mPlot = (CategoryPlot)mChart.getPlot();
-        mPlot.setBackgroundAlpha(0.1f);
+        mPlot.setBackgroundPaint(Color.BLACK);
+        //mPlot.setRangeGridlinePaint(Color.BLUE);//背景底部横虚线
+        //mPlot.setOutlinePaint(Color.RED);//边界线
+        mPlot.setBackgroundAlpha(0);
         mPlot.setAxisOffset(new RectangleInsets(10D, 10D, 10D, 10D));
         mPlot.setNoDataMessage("没有相关统计数据");
         
@@ -109,7 +74,6 @@ public class MainFrame extends JFrame {
 		
 	}
 	
-
 	public static CategoryDataset GetDataset(Daily_Weather daily_Weather) {
 		// TODO Auto-generated method stub
 		
@@ -120,11 +84,10 @@ public class MainFrame extends JFrame {
 		String type2 = "明天";
 		String type3 = "后天";
 		
-		//DailyChartGrid.daily_Weather = daily_Weather;
 		DefaultCategoryDataset mDataset = new DefaultCategoryDataset();
+		Now_Weather now_Weather = WeatherUtil.getNowWeather("auto_ip");
 		//List<Hourly_Weather> hourly_Weathers = WeatherUtil.getHourlyWeathers("auto_ip");
 		List<Daily_Weather> daily_Weathers = WeatherUtil.getDailyWeathers("auto_ip");
-		
 		System.out.println("test daily weather 1 :" + daily_Weathers.get(1).getTmp_max());
 		String max_1 = daily_Weathers.get(0).getTmp_max();
 		String max_2 = daily_Weathers.get(1).getTmp_max();
@@ -140,56 +103,21 @@ public class MainFrame extends JFrame {
 		System.out.println("int_3:" + int_3);
 		
 		DefaultCategoryDataset linedataset = new DefaultCategoryDataset();
-		linedataset.addValue(Integer.parseInt(daily_Weather.getTmp_max()), series1, type1);
+		linedataset.addValue(int_1, series1, type1);
 		linedataset.addValue(int_2, series1, type2);
 		linedataset.addValue(int_3, series1, type3);
 		linedataset.addValue(int_11, series2, type1);
 		linedataset.addValue(int_12, series2, type2);
 		linedataset.addValue(int_13, series2, type3);
+		//linedataset.addValue(2.0, series3, type1);
+		//linedataset.addValue(9.2, series3, type2);
+		//linedataset.addValue(8.9, series3, type3);
+		
+        //System.out.println(mDataset.getValue("today", "今天"));
+        
+		//System.out.println(daily_Weather.getTmp_max());
+		//mDataset.addValue(1, daily_Weather.getTmp_max(), daily_Weather.getTmp_min());
+		//mDataset.addValue(1, "First", "2013");
 		return linedataset;
-	}
-*/
-	/**
-	 * 刷新天气信息显示面板
-	 * @param now_Weather
-	 * @param hourly_Weathers
-	 * @param daily_Weathers
-	 */
-	public void setWeatherInfo(Now_Weather now_Weather, List<Hourly_Weather> hourly_Weathers, List<Daily_Weather> daily_Weathers) {
-		
-		this.remove(hourlyWeatherPanel);
-		this.remove(dailyWeatherPanel);
-		
-		hourlyWeatherPanel = new JPanel();
-		dailyWeatherPanel = new JPanel();
-		chartPanle = new JPanel();
-		
-		chartPanle.setLayout(new GridLayout(1,8,5,0));
-		chartPanle.setSize(new Dimension(1200, 300));
-		
-
-		TestLine test = new TestLine();
-		chartPanle.add(test.creatFrame());
-		
-		this.add(chartPanle,BorderLayout.CENTER);
-		chartPanle.updateUI();	//刷新UI
-		chartPanle.repaint();	//重绘
-		
-		if(daily_Weathers != null) {
-			dailyWeatherPanel.setLayout(new GridLayout(4, 1, 0, 5));
-			dailyWeatherPanel.setPreferredSize(new Dimension(1000, 200));
-			for(Daily_Weather daily_Weather : daily_Weathers) {
-				dailyWeatherPanel.add(new DailyWeatherGrid(daily_Weather));
-			}
-			JPanel panel = new JPanel();
-			panel.setLayout(new FlowLayout(FlowLayout.RIGHT,10,25));
-			JLabel updateTimeLabel = new JLabel("更新时间:"+now_Weather.getLocationAndUpdateTime().getLoc());
-			panel.add(updateTimeLabel);
-			panel.add(DATA_SOURCE_LABEL);
-			dailyWeatherPanel.add(panel);
-		}	
-		this.add(dailyWeatherPanel, BorderLayout.SOUTH);
-		dailyWeatherPanel.updateUI();
-		dailyWeatherPanel.repaint();
 	}
 }
