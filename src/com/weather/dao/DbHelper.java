@@ -150,5 +150,10 @@ public class DbHelper {
 			e.printStackTrace();
 			return null;
 		}
-	} 
+	}
+	
+	public static void main(String args[]){
+		con = getConnection();
+		
+	}
 }

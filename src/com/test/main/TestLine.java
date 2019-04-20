@@ -29,7 +29,7 @@ public class TestLine {
 	
 	public static ChartPanel creatFrame(String location) {
 		Daily_Weather daily_weather = new Daily_Weather();
-		Font font = new Font("等线", 1, 13);
+		Font font = new Font("等线", 1, 15);
 		StandardChartTheme mChartTheme = new StandardChartTheme("CN");
 		mChartTheme.setLargeFont(font);
 		mChartTheme.setExtraLargeFont(font);
